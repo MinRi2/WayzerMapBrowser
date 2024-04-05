@@ -10,6 +10,8 @@
 <img width=600 src="./assets/drag.gif">
 
 ### 快速下载导入地图
+可用于一些装载Wayzer插件服务器
+
 <img width=600 src="./assets/download.gif">
 
 ### 快速服务器内投票
@@ -29,6 +31,6 @@
 
 是国内**生态最完善**的地图站
 
-<img width=400 src="./assets/wayzerMaps.png">
+<img width=600 src="./assets/wayzerMaps.png">
 
 [Wayzer地图站]: https://www.mindustry.top/map
