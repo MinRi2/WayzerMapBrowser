@@ -3,9 +3,10 @@
     "displayName": "[gold]Wayzer地图站[]",
     "author": "[yellow]miner",
     "description": "",
+    "repo": "MinRi2/WayzerMapBrowser",
     "version": "1.3.1",
     "minGameVersion": "136",
     "dependencies": [],
-    "hidden": true,
+    "hidden": true
 }
     

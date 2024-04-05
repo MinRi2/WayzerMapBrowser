@@ -22,6 +22,7 @@ module.exports = {
 function setupTable(){
     table.name = "wayzer-maps";
     table.background(Tex.pane);
+    table.touchable = Touchable.childrenOnly;
     table.visibility = () => Vars.ui.hudfrag.shown && !Vars.ui.minimapfrag.shown();
     
     table.defaults().growX();

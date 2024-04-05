@@ -129,7 +129,7 @@ function rebuild(){
     cont.clear();
     cont.top();
     
-    width = 510 / Scl.scl();
+    width = (Vars.mobile ? 510 : 350) / Scl.scl();
     
     if(!Core.graphics.isPortrait()){
         // 横 >= 纵
@@ -142,8 +142,6 @@ function rebuild(){
         
         let mapTableWidth = Core.scene.getWidth() / Scl.scl() * 2 / 3;
         columns = Math.floor(mapTableWidth / width);
-        print(mapTableWidth)
-        print(columns)
         
         cont.add(mapTable).width(mapTableWidth).pad(8).fillY();
     }else{

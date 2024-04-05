@@ -64,13 +64,13 @@ function createListener(e, needSave, alignable){
         lastSceneWidth: Core.scene.getWidth(),
         lastSceneHeight: Core.scene.getHeight(),
         
-		lastx: 0,
-		lasty: 0,
+		startX: 0,
+		startY: 0,
 		
 		resized(width, height){
 		    readPosition(e);
 		
-		    let {lastSceneWidth, lastSceneHeight, lastx, lasty} = this;
+		    let { lastSceneWidth, lastSceneHeight } = this;
 		    let newX = width * e.x / lastSceneWidth;
 		    let newY = height * e.y / lastSceneHeight;
 		    
@@ -93,28 +93,19 @@ function createListener(e, needSave, alignable){
         
         touchDown(event, x, y, pointer, button){
             enableEdit(e);
-        
-		    let ew = e.getWidth();
-		    let eh = e.getHeight();
-		    		    
-		    let v = e.localToParentCoordinates(Tmp.v1.set(x, y));
-			this.lastx = v.x;
-			this.lasty = v.y;
+		    
+		    this.startX = x;
+            this.startY = y;
 			
 			return true;
 		},
 
-		touchDragged(event, x, y, pointer){		    
+		touchDragged(event, dragX, dragY, pointer){		    
 		    horizontalLines.clear();
             verticalLines.clear();
 		    
-		    let v = e.localToParentCoordinates(Tmp.v1.set(x, y));
-		    
-		    let deltaX = v.x - this.lastx,
-		        deltaY = v.y - this.lasty;
-		    
-		    this.lastx = v.x;
-			this.lasty = v.y;
+		    let deltaX = dragX - this.startX,
+		        deltaY = dragY - this.startY;
 		    
 	        this.updateDragMode(deltaX, deltaY);
 		    
