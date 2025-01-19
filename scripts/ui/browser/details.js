@@ -1,5 +1,5 @@
 const {
-    wayzerApi, network, previews, theModName, ui, elemUtils
+    wayzerApi, network, previews, theModName, ui, elemUtils, booleanRules, multiplierRules
 } = require(modName + "/vars");
 const { setClipboardText, viewImage } = ui;
 const {
@@ -58,6 +58,7 @@ function loadDetails(id, successCons, faildCons){
         
     network.fetch(url).then(data => {
         details = JSON.parse(data.getResultAsString());
+        // Log.info(JSON.stringify(details, null, 4));
         mapTags = details.tags;
         successCons();
     }).error(error => {
@@ -141,12 +142,12 @@ function setupInfoTable(table){
     
     table.add(name).labelAlign(Align.left).wrap().growX().row();
     
-    addText("map-uploader", user, t => {
+    addText("map-uploader", user.name, t => {
         t.table(null, buttons => {
             buttons.defaults().size(32).pad(4);
             
             buttons.button(Icon.copy, Styles.cleari, 24, () => {
-                setClipboardText(user);
+                setClipboardText(user.name);
             });
         }).expand().right().row();
     });
@@ -217,22 +218,9 @@ function setupRulesTable(table){
             return Core.bundle.get("wayzer-maps.rules." + (value ?  "enable" : "disable"));
         }
         
-        ["attackMode",
-        "coreIncinerates",
-        "waveTimer",
-        ].forEach(t => addRule(t, boolFormator));
         
-        ["solarMultiplier",
-        
-        "blockHealthMultiplier",
-        "blockDamageMultiplier",
-        "buildCostMultiplier",
-        "deconstructRefundMultiplier",
-        
-        "unitHealthMultiplier",
-        "unitHealthMultiplier",
-        "unitBuildSpeedMultiplier",
-        ].forEach(t => addRule(t));
+        booleanRules.forEach(t => addRule(t, boolFormator));
+        multiplierRules.forEach(t => addRule(t));
         
         addRule("enemyCoreBuildRadius", r => Strings.autoFixed(r / Vars.tilesize, 1));
         

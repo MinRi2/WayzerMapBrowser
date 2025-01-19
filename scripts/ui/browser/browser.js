@@ -1,5 +1,6 @@
 const {
-    wayzerApi, network, previews, theModName, ui, elemUtils
+    wayzerApi, network, previews, theModName, ui, elemUtils,
+    modeTags, versionTags, sortTags
 } = require(modName + "/vars");
 const {
     setLoadingText, 
@@ -29,15 +30,9 @@ var columns = 3;
 // 按钮Tooltip
 var userTag = null;
 var selectTags = [
-    new SelectTag("@mode",
-        ["Survive", "Pvp", "Attack", "Sandbox", "Editor", "Unkown"]
-    ),
-    new SelectTag("@version",
-        [3, 4, 5, 7]
-    ),
-    new SelectTag("@sort",
-        ["updateTime", "createTime", "download", "rating", "like"]
-    )
+    new SelectTag("@mode", modeTags),
+    new SelectTag("@version", versionTags),
+    new SelectTag("@sort", sortTags)
 ]
 
 var mapArray = null;
@@ -137,8 +132,8 @@ function rebuild(){
             left.top();
             left.defaults().growX();
             
-            left.table(null, t => setupSearchTable(t)).growX().row();
-        }).grow();
+            left.table(null, t => setupSearchTable(t)).grow().row();
+        }).pad(16).grow();
         
         let mapTableWidth = Core.scene.getWidth() / Scl.scl() * 2 / 3;
         columns = Math.floor(mapTableWidth / width);
@@ -146,18 +141,14 @@ function rebuild(){
         cont.add(mapTable).width(mapTableWidth).pad(8).fillY();
     }else{
         // 横 < 纵
-        cont.table(null, top => {
-            top.top();
-            top.defaults().growX();
-            
-            top.table(null, t => setupSearchTable(t)).growX().row();
-        }).growX();
+        cont.table(null, t => setupSearchTable(t)).growX();
         
         cont.row();
         
-        let mapTableWidth = Core.scene.getWidth() / Scl.scl(1);
+        let mapTableWidth = Core.scene.getWidth() / Scl.scl();
         columns = Math.floor(mapTableWidth / width);
-        cont.add(mapTable).pad(8).fill();
+        
+        cont.add(mapTable).pad(8).growX();
     }
     
     rebuildMapTable();
@@ -210,7 +201,7 @@ function setupSearchTable(table){
     
     table.pane(Styles.noBarPane, panet => {
         panet.top().right();
-        panet.defaults().growX();
+        panet.defaults().expandX().left();
         
         panet.table(null, userTable => {
             userTable.top();
@@ -309,7 +300,7 @@ function setupBrowser(table){
             
             if((i + 1) % columns == 0) tp.row();
         }
-    }).scrollX(false).grow();
+    }).scrollX(false).fill();
 }
 
 function setupMap(table, obj){        
@@ -319,7 +310,7 @@ function setupMap(table, obj){
     let {id, preview, name, desc, latest: hash, tags} = obj;
     
     table.table(null, top => {
-        top.add(name).labelAlign(Align.left).ellipsis(true).wrap().growX();
+        top.add(name).style(Styles.outlineLabel).color(Pal.accent).labelAlign(Align.left).ellipsis(true).wrap().growX();
                 
         top.button(Icon.download, Styles.clearNonei, buttonSize, () => {
             confirmDownloadMap(hash, name);

@@ -106,7 +106,7 @@ function createListener(e, needSave, alignable){
 		    
 		    let deltaX = dragX - this.startX,
 		        deltaY = dragY - this.startY;
-		    
+		        		    
 	        this.updateDragMode(deltaX, deltaY);
 		    
 		    e.keepInStage();
