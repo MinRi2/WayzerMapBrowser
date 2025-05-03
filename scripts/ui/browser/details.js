@@ -1,5 +1,5 @@
 const {
-    wayzerApi, network, previews, theModName, ui, elemUtils, booleanRules, multiplierRules
+    wayzerApi, network, browser, theModName, ui, elemUtils, booleanRules, multiplierRules
 } = require(modName + "/vars");
 const { setClipboardText, viewImage } = ui;
 const {
@@ -128,7 +128,7 @@ function setupImageTable(table){
         e.clicked(() => viewImage(image.getDrawable()));
     })
     
-    previews.fetchPreview(id, preview, region => {
+    browser.fetchPreview(id, preview, region => {
         image.setDrawable(region);
     });
 }
@@ -315,78 +315,14 @@ function setupWaveTable(waves){
     let {spawns} = mapTags.rules;
     spawns = parseSpawnGroups(spawns);
     
-    let updateTimer = 0, updatePeriod = 1;
-    let start = 0, displayed = 20;
+    waveGraph.groups.set(spawns);
+    waveGraph.rebuild();
     
     waves.left();
             
-    updateGraph();
-    
     addTitle(waves, "Waves");
     
     waves.add(waveGraph).grow();
-    
-    waves.row();
-        
-    waves.table(null, buttons => {;
-        buttons.defaults().grow();
-        
-        buttons.table(null, left => {            
-            left.button("<", () => {}).update(t => {
-                if(t.isPressed()){
-                    shift(-1);
-                }
-            });
-            
-            left.button(">", () => {}).update(t => {
-                if(t.isPressed()){
-                    shift(1);
-                }
-            }).padLeft(4);
-        });
-
-        buttons.table(null, right => {            
-            right.button("-", () => {}).update(t => {
-                if(t.isPressed()){
-                    view(-1);
-                }
-            });
-            
-            right.button("+", () => {}).update(t => {
-                if(t.isPressed()){
-                    view(1);
-                }
-            }).padLeft(4);
-        });
-    }).pad(4).growX();
-    
-    // copy copy...
-    function shift(amount){
-        updateTimer += Time.delta;
-        if(updateTimer >= updatePeriod){
-            start += amount;
-            if(start < 0) start = 0;
-            updateTimer = 0;
-            updateGraph();
-        }
-    }
-    
-    function view(amount){
-        updateTimer += Time.delta;
-        if(updateTimer >= updatePeriod){
-            displayed += amount;
-            if(displayed < 5) displayed = 5;
-            updateTimer = 0;
-            updateGraph();
-        }
-    }
-    
-    function updateGraph(){
-        waveGraph.groups = spawns;
-        waveGraph.from = start;
-        waveGraph.to = start + displayed;
-        waveGraph.rebuild();
-    }
 }
 
 function parseSpawnGroups(spawns){    

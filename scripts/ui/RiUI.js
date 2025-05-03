@@ -1,22 +1,21 @@
 let theModName = modName;
 let iconArray = ["vote"];
 
-function load(){
+function load() {
     loadStyles();
     loadIcons();
 }
 
-function infoToast(text, duration){
+function infoToast(text, duration) {
     let t = new Table(Styles.black3);
     t.touchable = Touchable.disabled;
     t.margin(16).add(text).style(Styles.outlineLabel).labelAlign(Align.center);
-    
+
     t.update(() => t.toFront());
-        
+
     t.pack();
-    
-    const width = t.getWidth();
-    const y = Core.scene.getHeight()/2;
+
+    const y = Core.scene.getHeight() / 2;
     t.actions(
         Actions.moveToAligned(0, y, Align.right),
         Actions.moveToAligned(0, y, Align.left, 1.5, Interp.pow4Out),
@@ -27,23 +26,23 @@ function infoToast(text, duration){
         ),
         Actions.remove(),
     );
-    
+
     t.act(0.1);
     Core.scene.add(t);
 }
 
-function setClipboardText(text){
+function setClipboardText(text) {
     Core.app.setClipboardText(text);
-    
+
     infoToast(Core.bundle.format("copy.hint", text), 4);
 }
 
-function viewImage(image){
+function viewImage(image) {
     const dialog = new BaseDialog("$view-image");
-    
-    const {cont} = dialog;
+
+    const { cont } = dialog;
     cont.image(image).scaling(Scaling.fit);
-    
+
     dialog.addCloseButton();
     dialog.show();
 }
@@ -56,18 +55,18 @@ module.exports = {
     viewImage: viewImage,
 }
 
-function loadStyles(){
+function loadStyles() {
     Object.assign(module.exports, {
         grayPanel: Tex.whiteui.tint(Pal.gray),
     });
 }
 
-function loadIcons(){
+function loadIcons() {
     let icons = {};
-    
+
     iconArray.forEach((icon) => {
         icons[icon] = Core.atlas.find(theModName + "-" + icon);
     });
-    
+
     module.exports.icons = icons;
 }

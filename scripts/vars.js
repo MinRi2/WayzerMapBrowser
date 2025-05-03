@@ -2,17 +2,17 @@ exports.theModName = modName;
 
 const multiplierRules = [
     "solarMultiplier",
-        
+
     "blockHealthMultiplier",
     "blockDamageMultiplier",
     "buildCostMultiplier",
     "deconstructRefundMultiplier",
-    
+
     "unitHealthMultiplier",
     "unitHealthMultiplier",
     "unitBuildSpeedMultiplier",
 ];
-    
+
 const booleanRules = [
     "attackMode",
     "coreIncinerates",
@@ -26,7 +26,7 @@ const sortTags = ["updateTime", "createTime", "download", "rating", "like"];
 exportVar("wayzerApi", "https://api.mindustry.top");
 
 exportVar("network", require(modName + "/net/network"));
-exportVar("previews", require(modName + "/net/previews"));
+exportVar("browser", require(modName + "/net/browser-backend"));
 
 exportVar("ui", require(modName + "/ui/RiUI"));
 exportVar("elemUtils", require(modName + "/ui/ElementUtils"));
@@ -37,6 +37,6 @@ exportVar("modeTags", modeTags);
 exportVar("versionTags", versionTags);
 exportVar("sortTags", sortTags);
 
-function exportVar(name, value){
+function exportVar(name, value) {
     module.exports[name] = value;
 }
