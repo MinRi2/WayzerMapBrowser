@@ -6,6 +6,8 @@ var table = new Table();
 var label = null;
 
 function init(){
+    Vars.ui.settings.graphics.checkPref("wayzer-maps-show", true);
+
     browser.init();
         
     setupTable();
@@ -23,7 +25,7 @@ function setupTable(){
     table.name = "wayzer-maps";
     table.background(Tex.pane);
     table.touchable = Touchable.childrenOnly;
-    table.visibility = () => Vars.ui.hudfrag.shown && !Vars.ui.minimapfrag.shown();
+    table.visibility = () => Vars.ui.hudfrag.shown && !Vars.ui.minimapfrag.shown() && Core.settings.getBool("wayzer-maps-show");
     
     table.defaults().growX();
     
@@ -43,7 +45,7 @@ function setupTable(){
     if(Core.app.isDesktop()){
         table.update(() => {
             let {scene, input} = Core;
-            if(!scene.hasField() && input.keyDown(KeyCode.w) && input.keyDown(KeyCode.z)){
+            if(!scene.hasField() && input.keyDown(KeyCode.w) && input.keyRelease(KeyCode.z)){
                 browser.show();
             }
         });
