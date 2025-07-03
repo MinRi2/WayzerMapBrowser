@@ -355,20 +355,12 @@ function setupMap(table, mapData) {
 
         bottom.table(Tex.pane, imageTable => {
             let errorRegion = new TextureRegion(Core.assets.get("sprites/error.png"));
-            let image = imageTable.image(errorRegion).grow().get();
+            let image = imageTable.image(errorRegion).scaling(Scaling.fit).grow().get();
 
             browser.fetchPreview(thread, previewUrl, region => {
                 image.setDrawable(region);
             });
-        }).size(imageSize);
-
-        bottom.pane(Styles.noBarPane, info => {
-            info.top().left();
-            info.background(Tex.pane);
-
-            let t = desc ? desc : "$wayzer-maps.no-description";
-            info.add(t).labelAlign(Align.left).wrap().growX();
-        }).scrollX(false).height(imageSize).padLeft(4).margin(8).growX();
+        }).height(imageSize).growX().tooltip(desc ? desc : Core.bundle.get("$wayzer-maps.no-description"), true);
     }).margin(4);
 
     table.row();
