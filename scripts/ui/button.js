@@ -44,8 +44,8 @@ function setupTable(){
     // 快捷键实现
     if(Core.app.isDesktop()){
         table.update(() => {
-            let {scene, input} = Core;
-            if(!scene.hasField() && input.keyDown(KeyCode.w) && input.keyRelease(KeyCode.z)){
+            let {scene} = Core;
+            if(!scene.hasField() && keyValid()){
                 browser.show();
             }
         });
@@ -58,4 +58,9 @@ function addTable(){
     table.setPosition(0, Core.scene.getHeight()/2, Align.left);
     
     Core.scene.add(table);
+}
+
+function keyValid(){
+    const {input} = Core;
+    return (input.keyDown(KeyCode.w) && input.keyRelease(KeyCode.z)) || (input.keyDown(KeyCode.z) && input.keyRelease(KeyCode.w));
 }
