@@ -13,8 +13,12 @@ function init(){
     setupTable();
     addTable();
     
-    let listener = drag.createListener(table, true, true);
-    label.addListener(listener);
+    if(X && typeof X.ui.OverlayUI.INSTANCE.registerWindow == "function"){
+        X.ui.OverlayUI.INSTANCE.registerWindow("wayzer-maps", table);
+    }else{
+        let listener = drag.createListener(table, true, true);
+        label.addListener(listener);
+    }
 }
 
 module.exports = {
@@ -27,7 +31,7 @@ function setupTable(){
     table.touchable = Touchable.childrenOnly;
     table.visibility = () => Vars.ui.hudfrag.shown && !Vars.ui.minimapfrag.shown() && Core.settings.getBool("wayzer-maps-show");
     
-    table.defaults().growX();
+    table.defaults().expandX();
     
     label = table.add("WayzerMaps").get();
     
