@@ -13,7 +13,7 @@ function init(){
     setupTable();
     Core.scene.add(table);
     
-    if(X && typeof X.ui.OverlayUI.INSTANCE.registerWindow == "function"){
+    if(typeof X !== "undefined" && typeof X.ui.OverlayUI.INSTANCE.registerWindow == "function"){
         X.ui.OverlayUI.INSTANCE.registerWindow("wayzer-maps", table);
     }else{
         // initial position
