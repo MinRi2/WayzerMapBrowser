@@ -11,11 +11,13 @@ function init(){
     browser.init();
         
     setupTable();
-    addTable();
+    Core.scene.add(table);
     
     if(X && typeof X.ui.OverlayUI.INSTANCE.registerWindow == "function"){
         X.ui.OverlayUI.INSTANCE.registerWindow("wayzer-maps", table);
     }else{
+        // initial position
+        table.setPosition(0, Core.scene.getHeight()/2, Align.left);
         let listener = drag.createListener(table, true, true);
         label.addListener(listener);
     }
@@ -56,12 +58,6 @@ function setupTable(){
     }
     
     table.pack();
-}
-
-function addTable(){
-    table.setPosition(0, Core.scene.getHeight()/2, Align.left);
-    
-    Core.scene.add(table);
 }
 
 function keyValid(){
