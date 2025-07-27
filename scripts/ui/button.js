@@ -11,11 +11,11 @@ function init(){
     browser.init();
         
     setupTable();
-    Core.scene.add(table);
     
     if(typeof X !== "undefined" && typeof X.ui.OverlayUI.INSTANCE.registerWindow == "function"){
         X.ui.OverlayUI.INSTANCE.registerWindow("wayzer-maps", table);
     }else{
+        Core.scene.add(table);
         // initial position
         table.setPosition(0, Core.scene.getHeight()/2, Align.left);
         let listener = drag.createListener(table, true, true);
