@@ -275,11 +275,7 @@ function rebuildMapTable() {
 
     setLoadingText(mapTable);
 
-    let url = wayzerApi + "/maps/list?begin=" + page * count;
-
-    let search = applyAllTags(searchText);
-    url += "&search=" + search;
-
+    let url = wayzerApi + "/maps/list?begin=" + page * count + "&search=" + encodeURI(applyAllTags(searchText));
     network.fetch(url).then(data => {
         mapDatas = JSON.parse(data.getResultAsString());
         setupBrowser(mapTable);
@@ -298,6 +294,8 @@ function setupBrowser(table) {
     }
 
     table.pane(Styles.noBarPane, tp => {
+        tp.top();
+
         let len = Math.min(count, mapDatas.length);
 
         for (let i = 0; i < len; i++) {
@@ -314,7 +312,7 @@ function setupBrowser(table) {
 
             if ((i + 1) % columns == 0) tp.row();
         }
-    }).scrollX(false).fill();
+    }).scrollX(false).grow();
 }
 
 function setupMap(table, mapData) {
@@ -360,7 +358,7 @@ function setupMap(table, mapData) {
             browser.fetchPreview(thread, previewUrl, region => {
                 image.setDrawable(region);
             });
-        }).height(imageSize).growX().tooltip(desc ? desc : Core.bundle.get("$wayzer-maps.no-description"), true);
+        }).height(imageSize).growX().tooltip(desc ? desc : Core.bundle.get("wayzer-maps.no-description"), true);
     }).margin(4);
 
     table.row();

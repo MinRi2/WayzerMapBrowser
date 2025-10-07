@@ -57,7 +57,13 @@ function loadDetails(id, successCons, faildCons){
     let url = wayzerApi + "/maps/thread/" + id + "/latest";
         
     network.fetch(url).then(data => {
-        details = JSON.parse(data.getResultAsString());
+        try{
+            details = JSON.parse(data.getResultAsString());
+        }catch(e){
+            Vars.ui.showErrorMessage(e);
+            return;
+        }
+        
         // Log.info(JSON.stringify(details, null, 4));
         mapTags = details.tags;
         successCons();
@@ -146,9 +152,10 @@ function setupInfoTable(table){
         t.table(null, buttons => {
             buttons.defaults().size(32).pad(4);
             
-            buttons.button(Icon.copy, Styles.cleari, 24, () => {
-                setClipboardText(user.name);
-            });
+            const copyBtn = buttons.button(Icon.copy, Styles.cleari, 24, () => {
+                setClipboardText(user.gid);
+            }).get();
+            addTooltip(copyBtn, Core.bundle.format("@wayzer-maps.copy-gid", user.gid));
         }).expand().right().row();
     });
     addText("map-author", author);
@@ -313,7 +320,13 @@ function setupRulesTable(table){
 
 function setupWaveTable(waves){
     let {spawns} = mapTags.rules;
-    spawns = parseSpawnGroups(spawns);
+    try{
+        // trick
+        spawns = JsonIO.json.fromJson(Seq, SpawnGroup, JSON.stringify(spawns));
+    }catch(e){
+        spawns = new Seq();
+        Vars.ui.showErrorMessage(e);
+    }
     
     waveGraph.groups.set(spawns);
     waveGraph.rebuild();
@@ -323,12 +336,4 @@ function setupWaveTable(waves){
     addTitle(waves, "Waves");
     
     waves.add(waveGraph).grow();
-}
-
-function parseSpawnGroups(spawns){    
-    let json = JSON.stringify(spawns);
-    let spawnGroupArrayClass = java.lang.reflect.Array.newInstance(SpawnGroup, 0).getClass();
-    let groups = JsonIO.json.fromJson(spawnGroupArrayClass, json);
-    
-    return new Seq(groups);
 }

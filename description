@@ -53,6 +53,15 @@ Wayzer资源站:[sky]https://www.mindustry.top/map[white]
 [sky][v1.4.1][white]:
     1.修复X适配问题
 
+[sky][v1.4.5][white]:
+    1.修复电脑搜索栏防抖失效
+    2.修复地图详情可能崩溃(# DeterMination)
+    3.统一居上地图栏位置
+    4.添加按钮复制上传用户的gid
+    5.修复中文搜索失效
+    6.添加新搜索标签: v8b(150+)
+    7.##登录地图站施工中...##
+
 [sky]感谢小企鹅的电脑端测试!
 
 [yellow]miner[white]的mod群:[sky]757679470

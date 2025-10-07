@@ -20,16 +20,11 @@ const booleanRules = [
 ];
 
 const modeTags = ["Survive", "Pvp", "Attack", "Sandbox", "Editor", "Unkown"];
-const versionTags = [3, 4, 5, 7, 8];
+const versionTags = [3, 4, 5, 7, 8, 9];
 const sortTags = ["updateTime", "createTime", "download", "rating", "like"];
 
+exportVar("resourceSite", "https://www.mindustry.top");
 exportVar("wayzerApi", "https://api.mindustry.top");
-
-exportVar("network", require(modName + "/net/network"));
-exportVar("browser", require(modName + "/net/browser-backend"));
-
-exportVar("ui", require(modName + "/ui/RiUI"));
-exportVar("elemUtils", require(modName + "/ui/ElementUtils"));
 
 exportVar("booleanRules", booleanRules);
 exportVar("multiplierRules", multiplierRules);
@@ -37,6 +32,12 @@ exportVar("modeTags", modeTags);
 exportVar("versionTags", versionTags);
 exportVar("sortTags", sortTags);
 
-function exportVar(name, value) {
+exportVar("network", require(modName + "/net/network"));
+exportVar("browser", require(modName + "/api/backend"));
+
+exportVar("ui", require(modName + "/ui/RiUI"));
+exportVar("elemUtils", require(modName + "/ui/ElementUtils"));
+
+function exportVar(name, value){
     module.exports[name] = value;
 }

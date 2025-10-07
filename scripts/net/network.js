@@ -2,7 +2,14 @@ module.exports = {
     fetch: fetch,
 }
 
-function fetch(url){    
+function fetch(url, options){    
+    const { method, headers, content, timeout } = Object.assign({
+        method: Http.HttpMethod.GET,
+        headers: {},
+        content: null,
+        timeout: 2 * 1000,
+    }, options || {});
+
     let objCaller = {
         callbacks: [],
         errorHandler: null,
@@ -20,6 +27,7 @@ function fetch(url){
         
         error(callback){
             this.errorHandler = callback;
+            return this;
         },
     
         then(callback){
@@ -27,7 +35,7 @@ function fetch(url){
             return this;
         },
         
-        callAll(){
+        _callAll(){
             let {callbacks, data} = this;
             let result = data;
             callbacks.forEach((callback) => {
@@ -35,15 +43,20 @@ function fetch(url){
             });
         },
     }
-    
-    Http.get(url, response => {
-        objCaller.data.result = response.getResult(),
-                
-        // 抛回主线程
-        Core.app.post(() => {
-            objCaller.callAll();
-        });
-    }, error => {
+
+    const request = Http.request(method, url);
+    Object.keys(headers).forEach(key => {
+        const value = headers[key];
+        request.header(key, value);
+    });
+
+    if(content != null){
+        request.content(content);
+    }
+
+    request.timeout = timeout;
+
+    request.error(error => {
         let {errorHandler} = objCaller;
         
         if(errorHandler != null){
@@ -51,6 +64,15 @@ function fetch(url){
                 errorHandler(error);
             });
         }
+    });
+
+    request.submit(response => {
+        objCaller.data.result = response.getResult(),
+                
+        // 抛回主线程
+        Core.app.post(() => {
+            objCaller._callAll();
+        });
     });
     
     return objCaller;

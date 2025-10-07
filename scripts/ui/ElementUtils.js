@@ -44,18 +44,20 @@ function addTooltip(elem, text, allowMobile){
         t.background(Styles.black6);
         t.add(text).margin(8);
     }), {
-        allowMobile: allowMobile,
+        allowMobile: allowMobile || true,
     });
     elem.addListener(tooltip);
 }
 
-function getDeboundTextField(text, cons){
-    if(!Core.input.useKeyboard()){
-        return Elem.newField(text, cons);
+function getDeboundTextField(text, changed, timeSeconds){
+    if(Vars.mobile && !Core.input.useKeyboard()){
+        return Elem.newField(text, changed);
     }
+
+    timeSeconds = timeSeconds || 0.3;
     
     let keeping = false;
-    let keeper = new Timekeeper(0.3);
+    let keeper = new Timekeeper(timeSeconds);
     let field = Elem.newField(text, t => {
         keeping = true;
         keeper.reset();
@@ -64,7 +66,7 @@ function getDeboundTextField(text, cons){
     field.update(() => {
         if(keeping && keeper.get()){
             keeping = false;
-            cons(field.getText());
+            changed(field.getText());
         }
     });
     
