@@ -1,4 +1,4 @@
-# 此仓库为JS语言实现，已经不再维护，请移步 [Dustdustry/WayzerMapBrowser](https://github.com/Dustdustry/WayzerMapBrowser)
+# 此仓库为JS语言实现，已经不再维护，请移步 [Dustdustry/WayzerMapBrowser-Java](https://github.com/Dustdustry/WayzerMapBrowser-Java)
 
 <center>
 
