@@ -1,3 +1,5 @@
+# 此仓库为JS语言实现，已经不再维护，请移步 [Dustdustry/WayzerMapBrowser](https://github.com/Dustdustry/WayzerMapBrowser)
+
 <center>
 
 # Wayzer 地图站 客户端 Mod <img width=50 src="https://github.com/user-attachments/assets/d91f59d8-61f5-49e0-a5de-524364a096c2">
